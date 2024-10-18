@@ -15,7 +15,7 @@ export default function App({ Component, pageProps }) {
   return (
     <>
     <Head>
-      <title>watchit</title>
+      <title>Watchit</title>
       <link rel="icon" href="/favicon.ico" />
       <style>{`
         html {
