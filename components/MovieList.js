@@ -8,9 +8,9 @@ export default function MovieList({ className = '', movies }) {
     <ul className={`${styles.movieList} ${className}`}>
       {movies.map((movie) => (
         <li key={movie.id}>
-          <Link href={`/movies/${movie.id}`}>
+          <Link href={`/films/${movie.id}`}>
           <div className={styles.poster}>
-            <img  className={styles.poster} src={movie.posterUrl} alt={movie.title} />
+            <Image fill src={movie.posterUrl} alt={movie.title} />
           </div>
           </Link>
           <div className={styles.info}>

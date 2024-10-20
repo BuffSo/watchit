@@ -8,3 +8,8 @@
   font-size: 18px;
   line-height: 26px;
 }
+
+:golbal(.light) .button {
+  color: #f9f9f9;
+  background-color: #505050;
+}
