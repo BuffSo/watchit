@@ -15,17 +15,49 @@ const labels = {
   },
 };
 
-export default function Movie() {
-  const [movie, setMovie] = useState();
+export async function getStaticPaths() {
+  const res = await axios.get('movies/');
+  const products = res.data.results;
+  const paths = products.map((product) => ({
+    params: { id: String(product.id) }
+  }));
+
+  return {
+    paths,
+    fallback: true,
+  }
+}
+
+export async function getStaticProps(context) {
+  const movieId = context.params['id'];
+  try {
+    const res = await axios.get(`/movies/${movieId}`);
+    const movie = res.data;
+    return {
+      props: {
+        movie,
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching movie:', error);
+    return {
+      notFound: true, // 페이지를 찾을 수 없는 경우 404 페이지를 반환
+    };
+  }
+}
+
+
+export default function Movie({ movie }) {
+  //const [movie, setMovie] = useState();
   const [movieReviews, setMovieReviews] = useState([]);
   const router = useRouter();
   const id = router.query['id'];
 
-  async function loadMovie(targetId) {
-    const res = await axios.get(`/movies/${targetId}`);
-    const nextMovie = res.data;
-    setMovie(nextMovie);
-  }
+  // async function loadMovie(targetId) {np
+  //   const res = await axios.get(`/movies/${targetId}`);
+  //   const nextMovie = res.data;
+  //   setMovie(nextMovie);
+  // }
 
   async function loadMovieReviews(targetId) {
     const res = await axios.get(`/movie_reviews/?movie_id=${targetId}`);
@@ -35,7 +67,7 @@ export default function Movie() {
 
   useEffect(() => {
     if (id) {
-      loadMovie(id);
+      //loadMovie(id);
       loadMovieReviews(id);
     }
   }, [id]);
